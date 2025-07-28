@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mr. Random</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to left, #000000, #1e3c72);
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .avatar {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      border: 4px solid #00aaff; /* Light blue border */
+      border-radius: 50%; /* Perfect circle */
+      overflow: hidden;
+      box-shadow: 0 0 15px #00aaff;
+      animation: glow 2s infinite alternate;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 10px #00aaff;
+      }
+      to {
+        box-shadow: 0 0 25px #00ccff;
+      }
+    }
+
+    .story {
+      max-width: 800px;
+      margin: 40px auto;
+      line-height: 1.6;
+    }
+
+    .coin-container {
+      perspective: 1000px;
+      margin-top: 40px;
+    }
+
+    .coin {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 2s;
+    }
+
+    .coin div {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      backface-visibility: hidden;
+    }
+
+    .front, .back {
+      border-radius: 50%;
+    }
+
+    .front {
+      background-image: url('heads.png');
+      background-size: cover;
+    }
+
+    .back {
+      background-image: url('tails.png');
+      background-size: cover;
+      transform: rotateY(180deg);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00aaff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="avatar">
+    <img src="avatar.jpg" alt="Mr. Random" />
+  </div>
+
+  <h1>Mr. Random</h1>
+
+  <div class="story">
+    <p>
+      Meet <strong>Mr. Random</strong> — a man shaped by chaos, probability, and the power of Python.  
+      He was once just a regular developer struggling to finish a machine learning project.  
+      One late night, he wrote a recursive script to simulate decisions based on randomness. The script grew, evolved... and suddenly, it spoke.
+    </p>
+    <p>
+      Obsessed, he lost track of time. The script began generating random outcomes with frightening accuracy — predicting events before they happened.
+      With every keystroke, he lost a bit of himself, until the code fused with his mind.
+    </p>
+    <p>
+      Now known only as Mr. Random, he roams the digital realm, using Python scripts to tip the balance of fate. 
+      Every game he plays, every choice he offers... is a test. Will you outsmart randomness? Or become part of it?
+    </p>
+  </div>
+
+  <h2>Flip a Coin</h2>
+  <div class="coin-container">
+    <div class="coin" id="coin">
+      <div class="front"></div>
+      <div class="back"></div>
+    </div>
+    <button onclick="flipCoin()">Flip Coin</button>
+    <div class="result" id="resultText"></div>
+  </div>
+
+  <script>
+    const coin = document.getElementById('coin');
+    const resultText = document.getElementById('resultText');
+
+    function flipCoin() {
+      const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
+      const rotation = Math.floor(Math.random() * 5 + 3) * 180;
+
+      if (outcome === 'heads') {
+        coin.style.transform = `rotateY(${rotation}deg)`;
+        resultText.textContent = "Result: Heads";
+      } else {
+        coin.style.transform = `rotateY(${rotation + 180}deg)`;
+        resultText.textContent = "Result: Tails";
+      }
+    }
+  </script>
+
+</body>
+</html>
