@@ -62,16 +62,14 @@
       height: 150px;
       backface-visibility: hidden;
       border-radius: 50%;
+      background-size: cover;
     }
 
     .front {
-      background-image: url('heads1.png');
-      background-size: cover;
+      transform: rotateY(0deg);
     }
 
     .back {
-      background-image: url('tails1.png');
-      background-size: cover;
       transform: rotateY(180deg);
     }
 
@@ -119,8 +117,8 @@
   <h2>Flip a Coin</h2>
   <div class="coin-container">
     <div class="coin" id="coin">
-      <div class="front"></div>
-      <div class="back"></div>
+      <div class="front" id="front"></div>
+      <div class="back" id="back"></div>
     </div>
     <button onclick="flipCoin()">Flip Coin</button>
     <div class="result" id="resultText"></div>
@@ -129,24 +127,29 @@
   <script>
     const coin = document.getElementById('coin');
     const resultText = document.getElementById('resultText');
+    const front = document.getElementById('front');
+    const back = document.getElementById('back');
     let totalRotation = 0;
 
     function flipCoin() {
       const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
       const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 spins
 
-      // Add spins to total rotation
-      totalRotation += spins * 360;
-
-      // If tails, offset by 180 degrees
-      if (outcome === 'tails') {
-        totalRotation += 180;
+      // Update images for front and back before the flip
+      if (outcome === 'heads') {
+        front.style.backgroundImage = "url('heads1.png')";
+        back.style.backgroundImage = "url('tails1.png')";
+      } else {
+        front.style.backgroundImage = "url('tails1.png')";
+        back.style.backgroundImage = "url('heads1.png')";
       }
 
-      // Apply the transform
+      // Update rotation
+      totalRotation += spins * 360;
+      if (outcome === 'tails') totalRotation += 180;
+
       coin.style.transform = `rotateY(${totalRotation}deg)`;
 
-      // Show result
       resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
     }
   </script>
