@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mr. Random</title>
   <style>
     body {
@@ -32,12 +32,8 @@
     }
 
     @keyframes glow {
-      from {
-        box-shadow: 0 0 10px #00aaff;
-      }
-      to {
-        box-shadow: 0 0 25px #00ccff;
-      }
+      from { box-shadow: 0 0 10px #00aaff; }
+      to   { box-shadow: 0 0 25px #00ccff; }
     }
 
     .story {
@@ -57,7 +53,7 @@
       margin: 0 auto;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 2s;
+      transition: transform 2s ease-in-out;
     }
 
     .coin div {
@@ -133,16 +129,24 @@
   <script>
     const coin = document.getElementById('coin');
     const resultText = document.getElementById('resultText');
+    let totalRotation = 0;
 
     function flipCoin() {
       const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
-      let rotation = Math.floor(Math.random() * 5 + 3) * 180;
+      const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 spins
 
-      // Always land on correct side:
-      coin.style.transform = outcome === 'heads'
-        ? `rotateY(${rotation}deg)`
-        : `rotateY(${rotation + 180}deg)`;
+      // Add spins to total rotation
+      totalRotation += spins * 360;
 
+      // If tails, offset by 180 degrees
+      if (outcome === 'tails') {
+        totalRotation += 180;
+      }
+
+      // Apply the transform
+      coin.style.transform = `rotateY(${totalRotation}deg)`;
+
+      // Show result
       resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
     }
   </script>
