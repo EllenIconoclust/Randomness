@@ -134,25 +134,34 @@
     let totalRotation = 0;
     let isFrontHeads = true;
 
+    // Set initial neutral images
+    front.style.backgroundImage = "url('neutral.png')";
+    back.style.backgroundImage = "url('neutral.png')";
+
     function flipCoin() {
+      // Show neutral image before spin
+      front.style.backgroundImage = "url('neutral.png')";
+      back.style.backgroundImage = "url('neutral.png')";
+      resultText.textContent = '';
+
       // Randomly decide which side is heads
       isFrontHeads = Math.random() < 0.5;
-      front.style.backgroundImage = `url('${isFrontHeads ? 'heads1.png' : 'tails1.png'}')`;
-      back.style.backgroundImage = `url('${isFrontHeads ? 'tails1.png' : 'heads1.png'}')`;
+      const headsImg = isFrontHeads ? 'heads1.png' : 'tails1.png';
+      const tailsImg = isFrontHeads ? 'tails1.png' : 'heads1.png';
 
-      // Randomly decide if heads or tails comes up
+      // Random result
       const resultIsHeads = Math.random() < 0.5;
       const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 full spins
-      totalRotation += spins * 360 + (resultIsHeads ? 0 : 180); // extra 180deg for tails
+      totalRotation += spins * 360 + (resultIsHeads ? 0 : 180);
 
       // Animate coin
       coin.style.transform = `rotateY(${totalRotation}deg)`;
 
-      // Clear text until animation finishes
-      resultText.textContent = '';
-
-      // Show result after spin
+      // Show result after animation
       setTimeout(() => {
+        front.style.backgroundImage = `url('${headsImg}')`;
+        back.style.backgroundImage = `url('${tailsImg}')`;
+
         const result = resultIsHeads
           ? (isFrontHeads ? 'Heads' : 'Tails')
           : (isFrontHeads ? 'Tails' : 'Heads');
@@ -164,8 +173,8 @@
       totalRotation = 0;
       coin.style.transform = 'rotateY(0deg)';
       resultText.textContent = '';
-      front.style.backgroundImage = '';
-      back.style.backgroundImage = '';
+      front.style.backgroundImage = "url('neutral.png')";
+      back.style.backgroundImage = "url('neutral.png')";
     }
   </script>
 
