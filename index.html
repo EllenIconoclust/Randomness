@@ -63,6 +63,7 @@
       backface-visibility: hidden;
       border-radius: 50%;
       background-size: cover;
+      background-position: center;
     }
 
     .front {
@@ -74,7 +75,7 @@
     }
 
     button {
-      margin: 15px 10px;
+      margin-top: 20px;
       padding: 10px 20px;
       font-size: 18px;
       border: none;
@@ -121,7 +122,6 @@
       <div class="back" id="back"></div>
     </div>
     <button onclick="flipCoin()">Flip Coin</button>
-    <button onclick="resetCoin()">Reset</button>
     <div class="result" id="resultText"></div>
   </div>
 
@@ -133,29 +133,23 @@
     let totalRotation = 0;
 
     function flipCoin() {
-      const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
-      const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 spins
+      // Randomly assign heads or tails to front and back
+      const isHeadsFront = Math.random() < 0.5;
+      front.style.backgroundImage = `url('${isHeadsFront ? 'heads1.png' : 'tails1.png'}')`;
+      back.style.backgroundImage  = `url('${isHeadsFront ? 'tails1.png' : 'heads1.png'}')`;
 
-      // Assign images accordingly
-      front.style.backgroundImage = `url('${outcome === 'heads' ? 'heads1.png' : 'tails1.png'}')`;
-      back.style.backgroundImage = `url('${outcome === 'heads' ? 'tails1.png' : 'heads1.png'}')`;
+      const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 full spins
+      const isHeadsResult = Math.random() < 0.5;
+      totalRotation += spins * 360;
+      if (!isHeadsResult) totalRotation += 180;
 
-      // Rotate coin
-      totalRotation = spins * 360 + (outcome === 'tails' ? 180 : 0);
       coin.style.transform = `rotateY(${totalRotation}deg)`;
 
-      // Delay result text until flip completes
-      resultText.textContent = "Flipping...";
+      // Wait for animation to finish before displaying result
       setTimeout(() => {
-        resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
+        const result = isHeadsResult === isHeadsFront ? 'Heads' : 'Tails';
+        resultText.textContent = `Result: ${result}`;
       }, 2000);
-    }
-
-    function resetCoin() {
-      coin.style.transform = "rotateY(0deg)";
-      resultText.textContent = "";
-      front.style.backgroundImage = "";
-      back.style.backgroundImage = "";
     }
   </script>
 
