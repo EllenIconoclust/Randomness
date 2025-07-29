@@ -74,7 +74,7 @@
     }
 
     button {
-      margin-top: 20px;
+      margin: 15px 10px;
       padding: 10px 20px;
       font-size: 18px;
       border: none;
@@ -100,7 +100,7 @@
 
   <div class="story">
     <p>
-      Meet <strong>Randy</strong> — a man shaped by chaos, probability, and the power of Python.  
+      Meet <strong>Mr. Random</strong> — a man shaped by chaos, probability, and the power of Python.  
       He was once just a regular developer struggling to finish a machine learning project.  
       One late night, he wrote a recursive script to simulate decisions based on randomness. The script grew, evolved... and suddenly, it spoke.
     </p>
@@ -121,6 +121,7 @@
       <div class="back" id="back"></div>
     </div>
     <button onclick="flipCoin()">Flip Coin</button>
+    <button onclick="resetCoin()">Reset</button>
     <div class="result" id="resultText"></div>
   </div>
 
@@ -132,39 +133,29 @@
     let totalRotation = 0;
 
     function flipCoin() {
-      // Disable button to prevent spamming
-      const button = document.querySelector("button");
-      button.disabled = true;
-      resultText.textContent = "Flipping...";
-
       const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
       const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 spins
 
-      // Add basic spin rotation
-      totalRotation += spins * 360;
-      if (outcome === 'tails') {
-        totalRotation += 180;
-      }
+      // Assign images accordingly
+      front.style.backgroundImage = `url('${outcome === 'heads' ? 'heads1.png' : 'tails1.png'}')`;
+      back.style.backgroundImage = `url('${outcome === 'heads' ? 'tails1.png' : 'heads1.png'}')`;
 
-      // Animate coin
+      // Rotate coin
+      totalRotation = spins * 360 + (outcome === 'tails' ? 180 : 0);
       coin.style.transform = `rotateY(${totalRotation}deg)`;
 
-      // Wait for animation to finish before showing result and image
+      // Delay result text until flip completes
+      resultText.textContent = "Flipping...";
       setTimeout(() => {
-        // Show result
         resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
+      }, 2000);
+    }
 
-        // Set correct face
-        if (outcome === 'heads') {
-          front.style.backgroundImage = "url('heads1.png')";
-          back.style.backgroundImage = "url('tails1.png')";
-        } else {
-          front.style.backgroundImage = "url('tails1.png')";
-          back.style.backgroundImage = "url('heads1.png')";
-        }
-
-        button.disabled = false;
-      }, 2000); // Match animation duration (2 seconds)
+    function resetCoin() {
+      coin.style.transform = "rotateY(0deg)";
+      resultText.textContent = "";
+      front.style.backgroundImage = "";
+      back.style.backgroundImage = "";
     }
   </script>
 
