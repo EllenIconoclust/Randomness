@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title> Randy </title>
+  <title>Mr. Random</title>
   <style>
     body {
       margin: 0;
@@ -63,6 +63,7 @@
       backface-visibility: hidden;
       border-radius: 50%;
       background-size: cover;
+      background-position: center;
     }
 
     .front {
@@ -96,11 +97,11 @@
     <img src="mrrandom.png" alt="Mr. Random" />
   </div>
 
-  <h1> Randy </h1>
+  <h1>Mr. Random</h1>
 
   <div class="story">
     <p>
-      Meet <strong>Randy</strong> — a man shaped by chaos, probability, and the power of Python.  
+      Meet <strong>Mr. Random</strong> — a man shaped by chaos, probability, and the power of Python.  
       He was once just a regular developer struggling to finish a machine learning project.  
       One late night, he wrote a recursive script to simulate decisions based on randomness. The script grew, evolved... and suddenly, it spoke.
     </p>
@@ -135,22 +136,24 @@
       const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
       const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 spins
 
-      // Update images for front and back before the flip
+      // Setup front and back face based on outcome
       if (outcome === 'heads') {
         front.style.backgroundImage = "url('heads1.png')";
         back.style.backgroundImage = "url('tails1.png')";
+        totalRotation += spins * 360;
       } else {
         front.style.backgroundImage = "url('tails1.png')";
         back.style.backgroundImage = "url('heads1.png')";
+        totalRotation += spins * 360 + 180;
       }
-
-      // Update rotation
-      totalRotation += spins * 360;
-      if (outcome === 'tails') totalRotation += 180;
 
       coin.style.transform = `rotateY(${totalRotation}deg)`;
 
-      resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
+      resultText.textContent = ''; // Clear old result immediately
+
+      setTimeout(() => {
+        resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
+      }, 2000); // Show result after animation
     }
   </script>
 
