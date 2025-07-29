@@ -63,7 +63,6 @@
       backface-visibility: hidden;
       border-radius: 50%;
       background-size: cover;
-      background-position: center;
     }
 
     .front {
@@ -101,7 +100,7 @@
 
   <div class="story">
     <p>
-      Meet <strong>Mr. Random</strong> — a man shaped by chaos, probability, and the power of Python.  
+      Meet <strong>Randy</strong> — a man shaped by chaos, probability, and the power of Python.  
       He was once just a regular developer struggling to finish a machine learning project.  
       One late night, he wrote a recursive script to simulate decisions based on randomness. The script grew, evolved... and suddenly, it spoke.
     </p>
@@ -133,27 +132,39 @@
     let totalRotation = 0;
 
     function flipCoin() {
+      // Disable button to prevent spamming
+      const button = document.querySelector("button");
+      button.disabled = true;
+      resultText.textContent = "Flipping...";
+
       const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
       const spins = Math.floor(Math.random() * 4 + 3); // 3 to 6 spins
 
-      // Setup front and back face based on outcome
-      if (outcome === 'heads') {
-        front.style.backgroundImage = "url('heads1.png')";
-        back.style.backgroundImage = "url('tails1.png')";
-        totalRotation += spins * 360;
-      } else {
-        front.style.backgroundImage = "url('tails1.png')";
-        back.style.backgroundImage = "url('heads1.png')";
-        totalRotation += spins * 360 + 180;
+      // Add basic spin rotation
+      totalRotation += spins * 360;
+      if (outcome === 'tails') {
+        totalRotation += 180;
       }
 
+      // Animate coin
       coin.style.transform = `rotateY(${totalRotation}deg)`;
 
-      resultText.textContent = ''; // Clear old result immediately
-
+      // Wait for animation to finish before showing result and image
       setTimeout(() => {
+        // Show result
         resultText.textContent = `Result: ${outcome.charAt(0).toUpperCase() + outcome.slice(1)}`;
-      }, 2000); // Show result after animation
+
+        // Set correct face
+        if (outcome === 'heads') {
+          front.style.backgroundImage = "url('heads1.png')";
+          back.style.backgroundImage = "url('tails1.png')";
+        } else {
+          front.style.backgroundImage = "url('tails1.png')";
+          back.style.backgroundImage = "url('heads1.png')";
+        }
+
+        button.disabled = false;
+      }, 2000); // Match animation duration (2 seconds)
     }
   </script>
 
